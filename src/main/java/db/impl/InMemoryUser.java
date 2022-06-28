@@ -1,5 +1,6 @@
-package db;
+package db.impl;
 
+import db.UserDBInterface;
 import entities.AssetType;
 import entities.User;
 import exceptions.UserExistsException;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class InMemoryUser implements UserDBInterface{
+public class InMemoryUser implements UserDBInterface {
     private List<User> userList = new ArrayList<>();
 
     public User findByUserId(final String id) {     // in DB there will be index on userId for fast query

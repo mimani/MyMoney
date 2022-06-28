@@ -1,5 +1,6 @@
-package db;
+package db.impl;
 
+import db.PortfolioHistoryDBInterface;
 import entities.PortfolioChangeReason;
 import entities.PortfolioHistory;
 import exceptions.PortfolioExistsException;
@@ -10,7 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class InMemoryPortfolioHistory implements PortfolioHistoryDBInterface{
+public class InMemoryPortfolioHistory implements PortfolioHistoryDBInterface {
     private List<PortfolioHistory> portfolioHistoryArrayList = new ArrayList<>();
 
     public PortfolioHistory find(String userId, YearMonth ym) {     // in DB there will be index on userId for fast query

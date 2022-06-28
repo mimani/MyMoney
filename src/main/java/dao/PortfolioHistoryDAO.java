@@ -1,10 +1,9 @@
 package dao;
 
-import db.InMemoryPortfolioHistory;
+import db.impl.InMemoryPortfolioHistory;
 import db.PortfolioHistoryDBInterface;
 import entities.PortfolioHistory;
 import exceptions.PortfolioExistsException;
-import exceptions.PortfolioNotFoundException;
 
 import java.time.YearMonth;
 import java.util.List;
@@ -15,9 +14,10 @@ public class PortfolioHistoryDAO {
     private PortfolioHistoryDAO () {}
     public static PortfolioHistoryDAO getInstance()
     {
-        if (singleInstance == null)
-            singleInstance = new PortfolioHistoryDAO();
-
+        synchronized(PortfolioHistoryDAO.class) {
+            if (singleInstance == null)
+                singleInstance = new PortfolioHistoryDAO();
+        }
         return singleInstance;
     }
 

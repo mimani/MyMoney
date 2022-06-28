@@ -1,6 +1,6 @@
 package dao;
 
-import db.InMemoryPortfolio;
+import db.impl.InMemoryPortfolio;
 import db.PortfolioDBInterface;
 import entities.Portfolio;
 import exceptions.PortfolioNotFoundException;
@@ -13,9 +13,10 @@ public class PortfolioDAO {
     private PortfolioDAO () {}
     public static PortfolioDAO getInstance()
     {
-        if (singleInstance == null)
-            singleInstance = new PortfolioDAO();
-
+        synchronized(PortfolioDAO.class) {
+            if (singleInstance == null)
+                singleInstance = new PortfolioDAO();
+        }
         return singleInstance;
     }
     private PortfolioDBInterface portfolioDBInterface = new InMemoryPortfolio();

@@ -1,12 +1,13 @@
-package db;
+package db.impl;
 
+import db.PortfolioDBInterface;
 import entities.Portfolio;
 import exceptions.PortfolioNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryPortfolio implements PortfolioDBInterface{
+public class InMemoryPortfolio implements PortfolioDBInterface {
     private List<Portfolio> portfolioList = new ArrayList<>();
 
     public Portfolio findByUserId(final String userId) {     // in DB there will be index on userId for fast query

@@ -1,6 +1,6 @@
 package dao;
 
-import db.InMemoryUser;
+import db.impl.InMemoryUser;
 import db.UserDBInterface;
 import entities.AssetType;
 import entities.User;
@@ -16,9 +16,10 @@ public class UserDAO {
     private UserDAO () {}
     public static UserDAO getInstance()
     {
-        if (singleInstance == null)
-            singleInstance = new UserDAO();
-
+        synchronized(UserDAO.class) {
+            if (singleInstance == null)
+                singleInstance = new UserDAO();
+        }
         return singleInstance;
     }
 
