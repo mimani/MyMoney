@@ -11,7 +11,10 @@ import java.util.List;
 public class PortfolioHistoryDAO {
 
     private static PortfolioHistoryDAO singleInstance = null;
-    private PortfolioHistoryDAO () {}
+    private PortfolioHistoryDBInterface portfolioHistoryDBInterface;
+    private PortfolioHistoryDAO () {
+        portfolioHistoryDBInterface = new InMemoryPortfolioHistory();
+    }
     public static PortfolioHistoryDAO getInstance()
     {
         synchronized(PortfolioHistoryDAO.class) {
@@ -20,8 +23,6 @@ public class PortfolioHistoryDAO {
         }
         return singleInstance;
     }
-
-    private PortfolioHistoryDBInterface portfolioHistoryDBInterface = new InMemoryPortfolioHistory();
 
     public void add(PortfolioHistory ph) throws PortfolioExistsException {
         portfolioHistoryDBInterface.add(ph);

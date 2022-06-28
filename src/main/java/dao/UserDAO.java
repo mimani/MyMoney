@@ -13,7 +13,10 @@ import java.util.Map;
 public class UserDAO {
 
     private static UserDAO singleInstance = null;
-    private UserDAO () {}
+    private UserDBInterface userDBInterface;
+    private UserDAO () {
+        userDBInterface = new InMemoryUser();
+    }
     public static UserDAO getInstance()
     {
         synchronized(UserDAO.class) {
@@ -22,8 +25,6 @@ public class UserDAO {
         }
         return singleInstance;
     }
-
-    private UserDBInterface userDBInterface = new InMemoryUser();
 
     public User findByUserId(String userId) {
         return userDBInterface.findByUserId(userId);

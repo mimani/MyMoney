@@ -10,7 +10,10 @@ import java.util.List;
 public class PortfolioDAO {
 
     private static PortfolioDAO singleInstance = null;
-    private PortfolioDAO () {}
+    private PortfolioDBInterface portfolioDBInterface;
+    private PortfolioDAO () {
+        portfolioDBInterface = new InMemoryPortfolio();
+    }
     public static PortfolioDAO getInstance()
     {
         synchronized(PortfolioDAO.class) {
@@ -19,7 +22,6 @@ public class PortfolioDAO {
         }
         return singleInstance;
     }
-    private PortfolioDBInterface portfolioDBInterface = new InMemoryPortfolio();
 
     public Portfolio findByUserId(String userId) {
         return portfolioDBInterface.findByUserId(userId);
