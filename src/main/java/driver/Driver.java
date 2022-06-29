@@ -19,7 +19,7 @@ import java.util.UUID;
 
 import static entities.AssetType.*;
 
-public class driver {
+public class Driver {
     public static void main(String[] args) throws IOException, UserExistsException {
         PortfolioService portfolioService = new PortfolioService();  // use injector
         UserService userService = new UserService();  // use injector

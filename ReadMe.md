@@ -62,3 +62,16 @@ Assumptions
 1. Balances are always floored to the nearest integers.
 2. The rebalancing happens on 6th (June) and 12th (December) month.
 3. The allocation always happens from January, and SIP from February.
+
+#
+Steps to build:
+
+Run Following commands in terminal from MyMoney folder:
+
+`mvn clean install`
+
+`mvn compile exec:java -Dexec.mainClass="driver.Driver"`
+
+Change the input argument in `MyMoney/input.txt` file.
+
+
