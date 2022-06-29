@@ -37,4 +37,12 @@ public class UserDAO {
     public void updateSip(String id, Map<AssetType, Integer> sip) throws UserNotExistsException {
         userDBInterface.updateSip(id, sip);
     }
+
+    public void updatePortfolioAllocation(String id, Map<AssetType, Float> portfolioAllocation) throws UserNotExistsException {
+        userDBInterface.updatePortfolioAllocation(id, portfolioAllocation);
+    }
+
+    public void clearTable() {
+        userDBInterface.clearTable();
+    }
 }

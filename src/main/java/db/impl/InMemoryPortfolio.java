@@ -31,6 +31,10 @@ public class InMemoryPortfolio implements PortfolioDBInterface {
                 .forEach(p -> p.setBreakup(portfolio.getBreakup()));
     }
 
+    public void clearTable() {
+        portfolioList.clear();
+    }
+
     public List<Portfolio> findAll() {
         return portfolioList;
     }

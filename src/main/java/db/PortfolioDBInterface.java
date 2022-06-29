@@ -8,6 +8,7 @@ import java.util.List;
 public interface PortfolioDBInterface {
     Portfolio findByUserId(String userId);
     void addPortfolio(Portfolio p) throws PortfolioNotFoundException;
+    void clearTable();
     void updatePortfolio(Portfolio p) throws PortfolioNotFoundException;
     List<Portfolio> findAll();
 }

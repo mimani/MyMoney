@@ -34,6 +34,18 @@ public class InMemoryUser implements UserDBInterface {
                 .forEach(p -> p.setSip(sip));
     }
 
+    public void updatePortfolioAllocation(String id, Map<AssetType, Float> portfolioAllocation) throws UserNotExistsException {
+        if (userList.stream().noneMatch(p -> p.getId().equals(id)))  // In DB this can be just unique index or equivalent
+            throw new UserNotExistsException("Invalid action: User does not exists for id: " + id);
+        userList.stream()
+                .filter(p -> p.getId().equals(id))
+                .forEach(p -> p.setPortfolioAllocation(portfolioAllocation));
+    }
+
+    public void clearTable() {
+        userList.clear();
+    }
+
     public List<User> findAll() {
         return userList;
     }

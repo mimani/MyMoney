@@ -6,6 +6,7 @@ import dao.UserDAO;
 import entities.*;
 import exceptions.PortfolioExistsException;
 import exceptions.PortfolioNotFoundException;
+import exceptions.UserNotExistsException;
 
 import java.time.YearMonth;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class PortfolioService {
     private UserDAO userDAO = UserDAO.getInstance(); // use injector
     private PortfolioHistoryDAO portfolioHistoryDAO = PortfolioHistoryDAO.getInstance(); // or use injector
 
-    public void applyReturns(float equityReturn, float debtReturn, float goldReturn, YearMonth ym) throws PortfolioNotFoundException, PortfolioExistsException {
+    public synchronized void applyReturns(float equityReturn, float debtReturn, float goldReturn, YearMonth ym) throws PortfolioNotFoundException, PortfolioExistsException {
         for(Portfolio portfolio: portfolioDAO.all()) {
             applySip(ym, portfolio);
             updateReturns(equityReturn, debtReturn, goldReturn, ym, portfolio);
@@ -57,7 +58,7 @@ public class PortfolioService {
     }
 
     public void printPortfolio(User user, YearMonth yearMonth) {
-        PortfolioHistory ph = portfolioHistoryDAO.find(user.getId(), yearMonth);
+        PortfolioHistory ph = getPortfolioHistory(user, yearMonth);
         if (ph == null) {
             System.out.println("Data not found for date: " + yearMonth);
             return;
@@ -67,18 +68,11 @@ public class PortfolioService {
         System.out.println(portfolioBreakup.get(EQUITY) + " " + portfolioBreakup.get(DEBT) + " " + portfolioBreakup.get(GOLD));
     }
 
-    public void printPortfolio(User user) {
-        Portfolio p = portfolioDAO.findByUserId(user.getId());
-        if (p == null) {
-            System.out.println("Data not found for user: " + user.getId());
-            return;
-        }
-        Map<AssetType, Integer> portfolioBreakup = p.getBreakup();
-//        System.out.println(org.apache.commons.lang3.StringUtils.join(portfolioBreakup.values(), " "));
-        System.out.println(portfolioBreakup.get(EQUITY) + " " + portfolioBreakup.get(DEBT) + " " + portfolioBreakup.get(GOLD));
+    public PortfolioHistory getPortfolioHistory(User user, YearMonth yearMonth) {
+        return portfolioHistoryDAO.find(user.getId(), yearMonth);
     }
 
-    public void allocate(User user, int equity, int debt, int gold) throws PortfolioNotFoundException {
+    public void allocate(User user, int equity, int debt, int gold) throws PortfolioNotFoundException, UserNotExistsException {
         int total = equity + debt + gold;
         user.setPortfolioAllocation(
                 new HashMap<AssetType, Float>(){{
@@ -93,6 +87,7 @@ public class PortfolioService {
             put(GOLD, gold);
         }});
         portfolioDAO.add(portfolio);
+        userDAO.updatePortfolioAllocation(user.getId(), user.getPortfolioAllocation());
     }
 
     public void rebalance(Portfolio portfolio, YearMonth yearMonth) throws PortfolioNotFoundException, PortfolioExistsException {
@@ -137,4 +132,7 @@ public class PortfolioService {
                 & total * portfolioAllocation.get(GOLD) - portfolio.getBreakup().get(GOLD) < acceptableDeviation;
     }
 
+    public void clearTable() {
+        portfolioDAO.clearTable();
+    }
 }

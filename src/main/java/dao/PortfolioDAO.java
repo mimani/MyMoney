@@ -38,4 +38,8 @@ public class PortfolioDAO {
     public List<Portfolio> all() {
         return portfolioDBInterface.findAll();
     }
+
+    public void clearTable() {
+        portfolioDBInterface.clearTable();
+    }
 }

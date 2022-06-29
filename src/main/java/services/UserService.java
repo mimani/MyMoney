@@ -18,4 +18,12 @@ public class UserService {
     public void updateSip(String id, Map<AssetType, Integer> sip) throws UserNotExistsException {
         userDAO.updateSip(id, sip);
     }
+
+    public User findByUserId(String userId) {
+        return userDAO.findByUserId(userId);
+    }
+
+    public void clearTable() {
+        userDAO.clearTable();
+    }
 }
